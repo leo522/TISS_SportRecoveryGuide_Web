@@ -1,0 +1,117 @@
+﻿@model List<TISS_SportRecoveryGuide.Models.BathSuggestionMatrixViewModel>
+@{
+    Layout = "~/Views/Shared/_SportRecoveryGuideLayout.cshtml";
+    var bathTypes = ViewBag.BathTypes as List<TISS_SportRecoveryGuide.Models.BathType>;
+    var guidelines = ViewBag.Guidelines as List<TISS_SportRecoveryGuide.Models.BathUsageGuideline>;
+}
+
+<div class="container py-4">
+    <h2 class="text-secondary">選擇方案</h2>
+    <h3 class="text-primary mb-4">三溫暖使用建議</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>目的</th>
+                    <th>週期 / 時機</th>
+                    @foreach (var type in bathTypes)
+                    {
+                        <th>@type.BathTypeName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var grouped = Model.GroupBy(m => m.Purpose);
+                    foreach (var group in grouped)
+                    {
+                        int rowspan = group.Count();
+                        bool isFirst = true;
+
+                        foreach (var row in group)
+                        {
+                            <tr>
+                                @if (isFirst)
+                                {
+                                    <td rowspan="@rowspan">@row.Purpose</td>
+                                    isFirst = false;
+                                }
+                                <td>@row.Timing</td>
+                                @foreach (var type in bathTypes)
+                                {
+                                    var match = row.Suggestions.FirstOrDefault(s => s.BathTypeID == type.BathTypeID);
+                                    <td>
+                                        @if (match != null && match.IsRecommended)
+                                        {
+                                            <span class="text-success fw-bold">✔</span>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 科學證據說明 -->
+    <div class="mt-4 p-3 bg-white rounded shadow-sm">
+        <h5 class="fw-bold text-primary">■ 科學證據顯示</h5>
+        <ul class="mb-3" style="list-style-type: disc; padding-left: 1.5rem;">
+            <li>冰水浴會干擾肌力/肌耐力/爆發力的訓練效果。</li>
+            <li>進行冰水浴後，肌肉功能與代謝率會短暫下降。</li>
+            <li>熱水浴對於恢復效果不佳。</li>
+        </ul>
+        <h5 class="fw-bold text-danger">■ 如有瘀血情形時，須謹慎使用對比浴/熱水浴。</h5>
+    </div>
+
+    <!-- 建議流程 -->
+    <div class="mt-5">
+        <h4 class="fw-bold text-secondary mb-3">建議流程</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <tbody>
+                    <tr>
+                        <th class="table-light" style="width: 120px;">冰水浴</th>
+                        <td>
+                            <div>1. 冰水 10-15 min <span class="text-muted">單次完整浸泡</span></div>
+                            <div>2. 冰水 5 min x 2-3 sets，間隔休息 2 min</div>
+                            <ul class="mb-0">
+                                <li>總浸泡時間 &lt; 10 min 效果不佳</li>
+                                <li>總浸泡時間 &gt; 15 min 無多餘效益</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-light">對比浴</th>
+                        <td>
+                            <div><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
+                            <div><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
+                            <div><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
+                            <ul class="mb-0">
+                                <li>總浸泡時間約 10 min 為原則</li>
+                                <li>冷熱交替間隔時間最小化</li>
+                                <li>強化恢復時可再加 1 set 冰水結束</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-light">熱水浴</th>
+                        <td>
+                            <div>熱水 10-15 min</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-light">水溫範圍</th>
+                        <td>
+                            <strong>冰水：</strong>8-15℃，
+                            <strong>熱水：</strong>36-42℃
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

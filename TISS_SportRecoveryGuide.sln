@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TISS_SportRecoveryGuide", "TISS_SportRecoveryGuide\TISS_SportRecoveryGuide.csproj", "{6CF31025-75E0-4FEC-80BF-C557FD3CEBF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6CF31025-75E0-4FEC-80BF-C557FD3CEBF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF31025-75E0-4FEC-80BF-C557FD3CEBF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF31025-75E0-4FEC-80BF-C557FD3CEBF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF31025-75E0-4FEC-80BF-C557FD3CEBF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {740E6F5E-16F9-44B6-ABEA-881FA3616E34}
+	EndGlobalSection
+EndGlobal

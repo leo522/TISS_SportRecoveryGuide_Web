@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="08699d4a71e046cf9f3403fd36cb3ee1" Name="Diagram1">
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.BathCondition" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.BathSuggestionMap" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.BathType" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.LogRecord" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.UserFeedback" Width="1.5" PointX="5" PointY="5" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.UserRawData" Width="1.5" PointX="2.75" PointY="4.875" />
+        <AssociationConnector Association="TISS_SportRecoveryGuideDBModel.FK__BathSugge__Condi__5812160E" />
+        <AssociationConnector Association="TISS_SportRecoveryGuideDBModel.FK__BathSugge__BathT__59063A47" />
+        <AssociationConnector Association="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" Width="1.5" PointX="3" PointY="8.125" />
+        <AssociationConnector Association="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

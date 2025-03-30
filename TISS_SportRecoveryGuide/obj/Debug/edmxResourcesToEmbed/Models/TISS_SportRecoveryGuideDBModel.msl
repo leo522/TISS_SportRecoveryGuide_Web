@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TISS_SportRecoveryGuideDBModelStoreContainer" CdmEntityContainer="TISS_SportRecoveryGuideDBEntities">
+    <EntitySetMapping Name="BathCondition">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathCondition">
+        <MappingFragment StoreEntitySet="BathCondition">
+          <ScalarProperty Name="Timing" ColumnName="Timing" />
+          <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+          <ScalarProperty Name="ConditionID" ColumnName="ConditionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BathSuggestionMap">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathSuggestionMap">
+        <MappingFragment StoreEntitySet="BathSuggestionMap">
+          <ScalarProperty Name="IsRecommended" ColumnName="IsRecommended" />
+          <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
+          <ScalarProperty Name="ConditionID" ColumnName="ConditionID" />
+          <ScalarProperty Name="SuggestionID" ColumnName="SuggestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BathType">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathType">
+        <MappingFragment StoreEntitySet="BathType">
+          <ScalarProperty Name="BathTypeName" ColumnName="BathTypeName" />
+          <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogRecord">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.LogRecord">
+        <MappingFragment StoreEntitySet="LogRecord">
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="DetailedDescription" ColumnName="DetailedDescription" />
+          <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserFeedback">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.UserFeedback">
+        <MappingFragment StoreEntitySet="UserFeedback">
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FeedbackID" ColumnName="FeedbackID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRawData">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.UserRawData">
+        <MappingFragment StoreEntitySet="UserRawData">
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+          <ScalarProperty Name="UserAge" ColumnName="UserAge" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BathUsageGuideline">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathUsageGuideline">
+        <MappingFragment StoreEntitySet="BathUsageGuideline">
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+          <ScalarProperty Name="BathUsageDescription" ColumnName="BathUsageDescription" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
+          <ScalarProperty Name="GuidelineID" ColumnName="GuidelineID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

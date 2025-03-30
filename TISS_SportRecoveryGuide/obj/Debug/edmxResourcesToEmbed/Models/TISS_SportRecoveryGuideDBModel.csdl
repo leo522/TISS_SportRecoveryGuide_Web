@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TISS_SportRecoveryGuideDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TISS_SportRecoveryGuideDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BathCondition" EntityType="TISS_SportRecoveryGuideDBModel.BathCondition" />
+    <EntitySet Name="BathSuggestionMap" EntityType="TISS_SportRecoveryGuideDBModel.BathSuggestionMap" />
+    <EntitySet Name="BathType" EntityType="TISS_SportRecoveryGuideDBModel.BathType" />
+    <EntitySet Name="LogRecord" EntityType="TISS_SportRecoveryGuideDBModel.LogRecord" />
+    <EntitySet Name="UserFeedback" EntityType="TISS_SportRecoveryGuideDBModel.UserFeedback" />
+    <EntitySet Name="UserRawData" EntityType="TISS_SportRecoveryGuideDBModel.UserRawData" />
+    <AssociationSet Name="FK__BathSugge__Condi__5812160E" Association="TISS_SportRecoveryGuideDBModel.FK__BathSugge__Condi__5812160E">
+      <End Role="BathCondition" EntitySet="BathCondition" />
+      <End Role="BathSuggestionMap" EntitySet="BathSuggestionMap" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BathSugge__BathT__59063A47" Association="TISS_SportRecoveryGuideDBModel.FK__BathSugge__BathT__59063A47">
+      <End Role="BathType" EntitySet="BathType" />
+      <End Role="BathSuggestionMap" EntitySet="BathSuggestionMap" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserFeedb__UserI__403A8C7D" Association="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D">
+      <End Role="UserRawData" EntitySet="UserRawData" />
+      <End Role="UserFeedback" EntitySet="UserFeedback" />
+    </AssociationSet>
+    <EntitySet Name="BathUsageGuideline" EntityType="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" />
+    <AssociationSet Name="FK__BathUsage__BathT__5CD6CB2B" Association="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B">
+      <End Role="BathType" EntitySet="BathType" />
+      <End Role="BathUsageGuideline" EntitySet="BathUsageGuideline" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BathCondition">
+    <Key>
+      <PropertyRef Name="ConditionID" />
+    </Key>
+    <Property Name="ConditionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Purpose" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Timing" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BathSuggestionMap" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathSugge__Condi__5812160E" FromRole="BathCondition" ToRole="BathSuggestionMap" />
+  </EntityType>
+  <EntityType Name="BathSuggestionMap">
+    <Key>
+      <PropertyRef Name="SuggestionID" />
+    </Key>
+    <Property Name="SuggestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ConditionID" Type="Int32" Nullable="false" />
+    <Property Name="BathTypeID" Type="Int32" Nullable="false" />
+    <Property Name="IsRecommended" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="BathCondition" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathSugge__Condi__5812160E" FromRole="BathSuggestionMap" ToRole="BathCondition" />
+    <NavigationProperty Name="BathType" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathSugge__BathT__59063A47" FromRole="BathSuggestionMap" ToRole="BathType" />
+  </EntityType>
+  <EntityType Name="BathType">
+    <Key>
+      <PropertyRef Name="BathTypeID" />
+    </Key>
+    <Property Name="BathTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BathTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BathSuggestionMap" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathSugge__BathT__59063A47" FromRole="BathType" ToRole="BathSuggestionMap" />
+    <NavigationProperty Name="BathUsageGuideline" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" FromRole="BathType" ToRole="BathUsageGuideline" />
+  </EntityType>
+  <EntityType Name="LogRecord">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="ActionType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DetailedDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="UserFeedback">
+    <Key>
+      <PropertyRef Name="FeedbackID" />
+    </Key>
+    <Property Name="FeedbackID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Content" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="UserRawData" Relationship="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D" FromRole="UserFeedback" ToRole="UserRawData" />
+  </EntityType>
+  <EntityType Name="UserRawData">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="UserAge" Type="Int32" />
+    <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="UserFeedback" Relationship="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D" FromRole="UserRawData" ToRole="UserFeedback" />
+  </EntityType>
+  <Association Name="FK__BathSugge__Condi__5812160E">
+    <End Type="TISS_SportRecoveryGuideDBModel.BathCondition" Role="BathCondition" Multiplicity="1" />
+    <End Type="TISS_SportRecoveryGuideDBModel.BathSuggestionMap" Role="BathSuggestionMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BathCondition">
+        <PropertyRef Name="ConditionID" />
+      </Principal>
+      <Dependent Role="BathSuggestionMap">
+        <PropertyRef Name="ConditionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BathSugge__BathT__59063A47">
+    <End Type="TISS_SportRecoveryGuideDBModel.BathType" Role="BathType" Multiplicity="1" />
+    <End Type="TISS_SportRecoveryGuideDBModel.BathSuggestionMap" Role="BathSuggestionMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BathType">
+        <PropertyRef Name="BathTypeID" />
+      </Principal>
+      <Dependent Role="BathSuggestionMap">
+        <PropertyRef Name="BathTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserFeedb__UserI__403A8C7D">
+    <End Type="TISS_SportRecoveryGuideDBModel.UserRawData" Role="UserRawData" Multiplicity="0..1" />
+    <End Type="TISS_SportRecoveryGuideDBModel.UserFeedback" Role="UserFeedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRawData">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserFeedback">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="BathUsageGuideline">
+    <Key>
+      <PropertyRef Name="GuidelineID" />
+    </Key>
+    <Property Name="GuidelineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BathTypeID" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BathUsageDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="SortOrder" Type="Int32" />
+    <NavigationProperty Name="BathType" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" FromRole="BathUsageGuideline" ToRole="BathType" />
+  </EntityType>
+  <Association Name="FK__BathUsage__BathT__5CD6CB2B">
+    <End Type="TISS_SportRecoveryGuideDBModel.BathType" Role="BathType" Multiplicity="1" />
+    <End Type="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" Role="BathUsageGuideline" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BathType">
+        <PropertyRef Name="BathTypeID" />
+      </Principal>
+      <Dependent Role="BathUsageGuideline">
+        <PropertyRef Name="BathTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,50 @@
+﻿.wave-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4fbff; /* 背景淡藍補色 */
+    font-family: 'Segoe UI', sans-serif;
+    position: relative;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px 30px 100px 30px; /* 下方留白避免壓到背景圖 */
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.wave-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+    .wave-footer img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+@media (max-width: 768px) {
+    body {
+        background-size: auto 100%;
+        background-position: center bottom;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px 60px 15px;
+    }
+}
