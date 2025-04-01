@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using TISS_SportRecoveryGuide.Models;
 
 namespace TISS_SportRecoveryGuide.Controllers
@@ -13,7 +14,7 @@ namespace TISS_SportRecoveryGuide.Controllers
         private TISS_SportRecoveryGuideDBEntities _db = new TISS_SportRecoveryGuideDBEntities(); //資料庫
 
         #region 三溫暖泡水建議方案
-        public ActionResult BathSugges(int? conditionId)
+        public ActionResult BathSugges(int? conditionId, string message = null)
         {
             var bathTypes = _db.BathType.OrderBy(bt => bt.BathTypeID).ToList();
             var allConditions = _db.BathCondition.ToList();
@@ -51,9 +52,29 @@ namespace TISS_SportRecoveryGuide.Controllers
                     Value = c.ConditionID.ToString(),
                     Text = $"{c.Purpose} - {c.Timing}"
                 })
-                .ToList();
+            .ToList();
+
+            ViewBag.SuccessMessage = (message == "success") ? "感謝您提供資料！" : null;
 
             return View(matrix);
+        }
+        #endregion
+
+        #region 使用者選填基本資料
+        [HttpPost]
+        public ActionResult SubmitReferenceInfo(string Gender, int UserAge, string TeamName)
+        {
+            var record = new UserReferenceRecord
+            {
+                Gender = Gender,
+                UserAge = UserAge,
+                TeamName = TeamName
+            };
+
+            _db.UserReferenceRecord.Add(record);
+            _db.SaveChanges();
+
+            return RedirectToAction("BathSugges", new { message = "success" });
         }
         #endregion
     }

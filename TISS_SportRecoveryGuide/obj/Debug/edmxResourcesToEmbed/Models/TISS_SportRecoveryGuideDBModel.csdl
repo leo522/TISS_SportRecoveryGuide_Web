@@ -24,6 +24,7 @@
       <End Role="BathType" EntitySet="BathType" />
       <End Role="BathUsageGuideline" EntitySet="BathUsageGuideline" />
     </AssociationSet>
+    <EntitySet Name="UserReferenceRecord" EntityType="TISS_SportRecoveryGuideDBModel.UserReferenceRecord" />
   </EntityContainer>
   <EntityType Name="BathCondition">
     <Key>
@@ -145,4 +146,21 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="UserReferenceRecord">
+    <Key>
+      <PropertyRef Name="RecordID" />
+    </Key>
+    <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="UserAge" Type="Int32" />
+    <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="UsagePurpose" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UsedType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="UsedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsHelpful" Type="Boolean" />
+    <Property Name="Feedback" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserAgent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+  </EntityType>
 </Schema>

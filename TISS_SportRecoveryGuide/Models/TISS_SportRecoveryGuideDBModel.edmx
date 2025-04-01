@@ -69,6 +69,23 @@
           <Property Name="TeamName" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="UserReferenceRecord">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="UserAge" Type="int" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="100" />
+          <Property Name="UsagePurpose" Type="nvarchar" MaxLength="50" />
+          <Property Name="UsedType" Type="nvarchar" MaxLength="100" />
+          <Property Name="UsedDate" Type="datetime" />
+          <Property Name="IsHelpful" Type="bit" />
+          <Property Name="Feedback" Type="nvarchar" MaxLength="300" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserAgent" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
         <Association Name="FK__BathSugge__BathT__59063A47">
           <End Role="BathType" Type="Self.BathType" Multiplicity="1" />
           <End Role="BathSuggestionMap" Type="Self.BathSuggestionMap" Multiplicity="*" />
@@ -125,6 +142,7 @@
           <EntitySet Name="LogRecord" EntityType="Self.LogRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserFeedback" EntityType="Self.UserFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRawData" EntityType="Self.UserRawData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserReferenceRecord" EntityType="Self.UserReferenceRecord" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__BathSugge__BathT__59063A47" Association="Self.FK__BathSugge__BathT__59063A47">
             <End Role="BathType" EntitySet="BathType" />
             <End Role="BathSuggestionMap" EntitySet="BathSuggestionMap" />
@@ -170,6 +188,7 @@
             <End Role="BathType" EntitySet="BathType" />
             <End Role="BathUsageGuideline" EntitySet="BathUsageGuideline" />
           </AssociationSet>
+          <EntitySet Name="UserReferenceRecord" EntityType="TISS_SportRecoveryGuideDBModel.UserReferenceRecord" />
         </EntityContainer>
         <EntityType Name="BathCondition">
           <Key>
@@ -291,6 +310,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserReferenceRecord">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UserAge" Type="Int32" />
+          <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UsagePurpose" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UsedType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UsedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsHelpful" Type="Boolean" />
+          <Property Name="Feedback" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserAgent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -365,6 +401,24 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
                 <ScalarProperty Name="GuidelineID" ColumnName="GuidelineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserReferenceRecord">
+            <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.UserReferenceRecord">
+              <MappingFragment StoreEntitySet="UserReferenceRecord">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="IsHelpful" ColumnName="IsHelpful" />
+                <ScalarProperty Name="UsedDate" ColumnName="UsedDate" />
+                <ScalarProperty Name="UsedType" ColumnName="UsedType" />
+                <ScalarProperty Name="UsagePurpose" ColumnName="UsagePurpose" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="UserAge" ColumnName="UserAge" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

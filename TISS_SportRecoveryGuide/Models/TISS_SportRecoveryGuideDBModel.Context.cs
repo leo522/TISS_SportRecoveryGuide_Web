@@ -32,5 +32,6 @@ namespace TISS_SportRecoveryGuide.Models
         public virtual DbSet<UserFeedback> UserFeedback { get; set; }
         public virtual DbSet<UserRawData> UserRawData { get; set; }
         public virtual DbSet<BathUsageGuideline> BathUsageGuideline { get; set; }
+        public virtual DbSet<UserReferenceRecord> UserReferenceRecord { get; set; }
     }
 }

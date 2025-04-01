@@ -16,6 +16,7 @@
         <AssociationConnector Association="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D" />
         <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" Width="1.5" PointX="3" PointY="8.125" />
         <AssociationConnector Association="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" />
+        <EntityTypeShape EntityType="TISS_SportRecoveryGuideDBModel.UserReferenceRecord" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
