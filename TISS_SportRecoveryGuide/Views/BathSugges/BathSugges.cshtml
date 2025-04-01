@@ -5,235 +5,250 @@
     var allConditions = ViewBag.AllConditions as List<SelectListItem>;
     var selectedConditionId = ViewBag.SelectedConditionID as int?;
 }
-<div class="container py-4">
-    <h1 class="text-primary fw-bold text-center mb-4" style="font-size: 2rem;">
-        三溫暖使用建議
-    </h1>
-    <h2 class="text-secondary">選擇方案</h2>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1"></script>
+</head>
+<body>
+    <div class="container py-4">
+        <h1 class="text-primary fw-bold text-center mb-4" style="font-size: 2rem;">
+            三溫暖使用建議
+        </h1>
+        <h2 class="text-secondary">選擇方案</h2>
 
-    <!-- 條件選擇表單 -->
-    <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="row mb-4">
-        <div class="col-md-6">
-            <label class="form-label fw-bold">請選擇條件：</label>
-            <select name="conditionId" class="form-select" onchange="this.form.submit()">
-                <option value="">-- 全部條件 --</option>
-                @foreach (var item in allConditions)
-                {
-                    <option value="@item.Value" @(item.Value == selectedConditionId?.ToString() ? "selected" : "")>
-                        @item.Text
-                    </option>
-                }
-            </select>
-        </div>
-    </form>
-
-    <!-- 建議方案表格 -->
-    <div class="table-responsive">
-        <table class="table table-bordered text-center align-middle">
-            <thead class="table-primary">
-                <tr>
-                    <th>目的</th>
-                    <th>週期 / 時機</th>
-                    @foreach (var type in bathTypes)
+        <!-- 條件選擇表單 -->
+        <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">請選擇條件：</label>
+                <select name="conditionId" class="form-select" onchange="this.form.submit()">
+                    <option value="">-- 全部條件 --</option>
+                    @foreach (var item in allConditions)
                     {
-                        <th>@type.BathTypeName</th>
+                        <option value="@item.Value" @(item.Value == selectedConditionId?.ToString() ? "selected" : "")>
+                            @item.Text
+                        </option>
                     }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var group in Model.GroupBy(m => m.Purpose))
-                {
-                    int rowspan = group.Count();
-                    bool isFirst = true;
+                </select>
+            </div>
+        </form>
 
-                    foreach (var row in group)
-                    {
-                        <tr>
-                            @if (isFirst)
-                            {
-                                <td rowspan="@rowspan">@row.Purpose</td>
-                                isFirst = false;
-                            }
-                            <td>@row.Timing</td>
-                            @foreach (var type in bathTypes)
-                            {
-                                var match = row.Suggestions.FirstOrDefault(s => s.BathTypeID == type.BathTypeID);
-                                <td>
-                                    @if (match != null && match.IsRecommended)
-                                    {
-                                        <span class="text-success fw-bold">✔</span>
-                                    }
-                                </td>
-                            }
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 靜態文字說明 -->
-    <div class="mt-4 p-3 bg-white rounded shadow-sm">
-        <h5 class="fw-bold text-primary">■ 科學證據顯示</h5>
-        <ul class="mb-3" style="list-style-type: disc; padding-left: 1.5rem;">
-            <li>冰水浴會干擾肌力/肌耐力/爆發力的訓練效果。</li>
-            <li>進行冰水浴後，肌肉功能與代謝率會短暫下降。</li>
-            <li>熱水浴對於恢復效果不佳。</li>
-        </ul>
-        <h5 class="fw-bold text-danger">■ 如有瘀血情形時，須謹慎使用對比浴/熱水浴。</h5>
-    </div>
-
-    <!-- 建議流程區塊 -->
-    <div class="mt-5">
-        <h4 class="fw-bold text-secondary mb-3">建議流程</h4>
+        <!-- 建議方案表格 -->
         <div class="table-responsive">
-            <table class="table table-bordered align-middle">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>目的</th>
+                        <th>週期 / 時機</th>
+                        @foreach (var type in bathTypes)
+                        {
+                            <th>@type.BathTypeName</th>
+                        }
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr>
-                        <th class="table-light" style="width: 120px;">冰水浴</th>
-                        <td>
-                            <div>1. 冰水 10-15 min <span class="text-muted">單次完整浸泡</span></div>
-                            <div>2. 冰水 5 min x 2-3 sets，間隔休息 2 min</div>
-                            <ul class="mb-0">
-                                <li>總浸泡時間 &lt; 10 min 效果不佳</li>
-                                <li>總浸泡時間 &gt; 15 min 無多餘效益</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="table-light">對比浴</th>
-                        <td>
-                            <div><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
-                            <div><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
-                            <div><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
-                            <ul class="mb-0">
-                                <li>總浸泡時間約 10 min 為原則</li>
-                                <li>冷熱交替間隔時間最小化</li>
-                                <li>強化恢復時可再加 1 set 冰水結束</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="table-light">熱水浴</th>
-                        <td><div>熱水 10-15 min</div></td>
-                    </tr>
-                    <tr>
-                        <th class="table-light">水溫範圍</th>
-                        <td><strong>冰水：</strong>8-15℃， <strong>熱水：</strong>36-42℃</td>
-                    </tr>
+                    @foreach (var group in Model.GroupBy(m => m.Purpose))
+                    {
+                        int rowspan = group.Count();
+                        bool isFirst = true;
+
+                        foreach (var row in group)
+                        {
+                            <tr>
+                                @if (isFirst)
+                                {
+                                    <td rowspan="@rowspan">@row.Purpose</td>
+                                    isFirst = false;
+                                }
+                                <td>@row.Timing</td>
+                                @foreach (var type in bathTypes)
+                                {
+                                    var match = row.Suggestions.FirstOrDefault(s => s.BathTypeID == type.BathTypeID);
+                                    <td>
+                                        @if (match != null && match.IsRecommended)
+                                        {
+                                            <span class="text-success fw-bold">✔</span>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2">
-                            <div class="fw-bold mb-2">主要參考資料</div>
-                            <ol class="small" style="padding-left: 1.2rem; margin-bottom: 0;">
-                                <li>
-                                    Bieuzen, F. (2013). Water-immersion therapy. In C. Hausswirth & I. Mujika (Eds.),
-                                    <i>Recovery for performance in sport</i> (pp. 191–199). Human Kinetics.
-                                </li>
-                                <li>
-                                    Cook, C. J., Kilduff, L. P., & Jones, M. R. (2014). Recovering effectively in high-performance sports.
-                                    In D. Joyce & D. Lewindon (Eds.),
-                                    <i>High-performance training for sports</i> (pp. 319–330). Human Kinetics.
-                                </li>
-                                <li>
-                                    Machado, A. F., et al. (2016). Can water temperature and immersion time influence the effect of cold water immersion on muscle soreness?
-                                    A systematic review and meta-analysis. <i>Sports Medicine, 46</i>(4), 503–514.
-                                </li>
-                                <li>
-                                    Malta, E. S., et al. (2021). The effects of regular cold-water immersion use on training-induced changes in strength and endurance performance:
-                                    A systematic review with meta-analysis. <i>Sports Medicine, 51</i>(1), 161–174.
-                                </li>
-                                <li>
-                                    Vaile, J., & Halson, S. (2013). Physiological recovery. In Australian Institute of Sport (Ed.),
-                                    <i>Physiological tests for elite athletes</i> (2nd ed., pp. 149–163). Human Kinetics.
-                                </li>
-                            </ol>
-                        </td>
-                    </tr>
-                </tfoot>
             </table>
         </div>
+
+        <!-- 靜態文字說明 -->
+        <div class="mt-4 p-3 bg-white rounded shadow-sm">
+            <h5 class="fw-bold text-primary">■ 科學證據顯示</h5>
+            <ul class="mb-3" style="list-style-type: disc; padding-left: 1.5rem;">
+                <li>冰水浴會干擾肌力/肌耐力/爆發力的訓練效果。</li>
+                <li>進行冰水浴後，肌肉功能與代謝率會短暫下降。</li>
+                <li>熱水浴對於恢復效果不佳。</li>
+            </ul>
+            <h5 class="fw-bold text-danger">■ 如有瘀血情形時，須謹慎使用對比浴/熱水浴。</h5>
+        </div>
+
+        <!-- 建議流程區塊 -->
+        <div class="mt-5">
+            <h4 class="fw-bold text-secondary mb-3">建議流程</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <tbody>
+                        <tr>
+                            <th class="table-light" style="width: 120px;">冰水浴</th>
+                            <td>
+                                <div>1. 冰水 10-15 min <span class="text-muted">單次完整浸泡</span></div>
+                                <div>2. 冰水 5 min x 2-3 sets，間隔休息 2 min</div>
+                                <ul class="mb-0">
+                                    <li>總浸泡時間 &lt; 10 min 效果不佳</li>
+                                    <li>總浸泡時間 &gt; 15 min 無多餘效益</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">對比浴</th>
+                            <td>
+                                <div><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
+                                <div><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
+                                <div><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
+                                <ul class="mb-0">
+                                    <li>總浸泡時間約 10 min 為原則</li>
+                                    <li>冷熱交替間隔時間最小化</li>
+                                    <li>強化恢復時可再加 1 set 冰水結束</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">熱水浴</th>
+                            <td><div>熱水 10-15 min</div></td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">水溫範圍</th>
+                            <td><strong>冰水：</strong>8-15℃， <strong>熱水：</strong>36-42℃</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <div class="fw-bold mb-2">主要參考資料</div>
+                                <ol class="small" style="padding-left: 1.2rem; margin-bottom: 0;">
+                                    <li>
+                                        Bieuzen, F. (2013). Water-immersion therapy. In C. Hausswirth & I. Mujika (Eds.),
+                                        <i>Recovery for performance in sport</i> (pp. 191–199). Human Kinetics.
+                                    </li>
+                                    <li>
+                                        Cook, C. J., Kilduff, L. P., & Jones, M. R. (2014). Recovering effectively in high-performance sports.
+                                        In D. Joyce & D. Lewindon (Eds.),
+                                        <i>High-performance training for sports</i> (pp. 319–330). Human Kinetics.
+                                    </li>
+                                    <li>
+                                        Machado, A. F., et al. (2016). Can water temperature and immersion time influence the effect of cold water immersion on muscle soreness?
+                                        A systematic review and meta-analysis. <i>Sports Medicine, 46</i>(4), 503–514.
+                                    </li>
+                                    <li>
+                                        Malta, E. S., et al. (2021). The effects of regular cold-water immersion use on training-induced changes in strength and endurance performance:
+                                        A systematic review with meta-analysis. <i>Sports Medicine, 51</i>(1), 161–174.
+                                    </li>
+                                    <li>
+                                        Vaile, J., & Halson, S. (2013). Physiological recovery. In Australian Institute of Sport (Ed.),
+                                        <i>Physiological tests for elite athletes</i> (2nd ed., pp. 149–163). Human Kinetics.
+                                    </li>
+                                </ol>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
-<hr />
-<div class="mt-5 p-4 border rounded bg-light">
-    <h5 class="fw-bold mb-3">參考建議方案後，您是否願意留下以下基本資料？</h5>
+    <hr />
+    <div class="mt-5 p-4 border rounded bg-light">
+        <h5 class="fw-bold mb-3">參考建議方案後，您是否願意留下以下基本資料？</h5>
 
-    @using (Html.BeginForm("SubmitReferenceInfo", "BathSugges", FormMethod.Post))
-    {
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label class="form-label">性別</label>
-                <select name="Gender" class="form-select" required>
-                    <option value="">請選擇</option>
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                    <option value="其他">其他</option>
-                </select>
+        @using (Html.BeginForm("SubmitReferenceInfo", "BathSugges", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">性別</label>
+                    <select name="Gender" class="form-select" required>
+                        <option value="">請選擇</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">年齡</label>
+                    <input type="number" name="UserAge" class="form-control" min="10" max="100" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">所屬隊伍</label>
+                    <input type="text" name="TeamName" class="form-control" maxlength="100" required />
+                </div>
             </div>
-            <div class="col-md-4">
-                <label class="form-label">年齡</label>
-                <input type="number" name="UserAge" class="form-control" min="10" max="100" required />
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">所屬隊伍</label>
-                <input type="text" name="TeamName" class="form-control" maxlength="100" required />
-            </div>
-        </div>
 
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label class="form-label">使用目的</label>
-                <select name="UsagePurpose" class="form-select" required>
-                    <option value="">請選擇</option>
-                    <option value="恢復">恢復</option>
-                    <option value="放鬆">放鬆</option>
-                    <option value="降溫">降溫</option>
-                </select>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">使用目的</label>
+                    <select name="UsagePurpose" class="form-select" required>
+                        <option value="">請選擇</option>
+                        <option value="恢復">恢復</option>
+                        <option value="放鬆">放鬆</option>
+                        <option value="降溫">降溫</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">預計使用時間</label>
+                    <input type="date" name="UsedDate" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">是否有幫助</label>
+                    <select name="IsHelpful" class="form-select">
+                        <option value="">請選擇</option>
+                        <option value="true">有幫助</option>
+                        <option value="false">沒有幫助</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-md-4">
-                <label class="form-label">預計使用時間</label>
-                <input type="date" name="UsedDate" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">是否有幫助</label>
-                <select name="IsHelpful" class="form-select">
-                    <option value="">請選擇</option>
-                    <option value="true">有幫助</option>
-                    <option value="false">沒有幫助</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label">使用的三溫暖類型（可複選）</label><br />
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="UsedType" value="冰水浴" />
-                <label class="form-check-label">冰水浴</label>
+            <div class="mb-3">
+                <label class="form-label">使用的三溫暖類型（可複選）</label><br />
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="UsedType" value="冰水浴" />
+                    <label class="form-check-label">冰水浴</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="UsedType" value="對比浴" />
+                    <label class="form-check-label">對比浴</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="UsedType" value="熱水浴" />
+                    <label class="form-check-label">熱水浴</label>
+                </div>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="UsedType" value="對比浴" />
-                <label class="form-check-label">對比浴</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="UsedType" value="熱水浴" />
-                <label class="form-check-label">熱水浴</label>
-            </div>
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label">留言 / 使用心得（選填）</label>
-            <textarea name="Feedback" class="form-control" rows="3" maxlength="300"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">送出</button>
-    }
-</div>
-@section Scripts {
-    @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-    {
+            <div class="mb-3">
+                <label class="form-label">留言 / 使用心得（選填）</label>
+                <textarea name="Feedback" class="form-control" rows="3" maxlength="300"></textarea>
+            </div>
+            <input type="hidden" name="recaptchaResponse" id="recaptchaResponse" />
+            <button type="submit" class="btn btn-primary">送出</button>
+        }
+    </div>
+    @section Scripts {
         <script>
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1', { action: 'submit' }).then(function (token) {
+                    document.getElementById('recaptchaResponse').value = token;
+                });
+            });
+        </script>
+
+        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+        {
+            <script>
             Swal.fire({
                 icon: 'success',
                 title: '送出成功！',
@@ -244,6 +259,8 @@
                 },
                 buttonsStyling: false
             });
-        </script>
+            </script>
+        }
     }
-}
+</body>
+</html>

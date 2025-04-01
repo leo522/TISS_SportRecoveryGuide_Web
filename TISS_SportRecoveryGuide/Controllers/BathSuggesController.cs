@@ -1,7 +1,9 @@
 ﻿using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
@@ -62,13 +64,44 @@ namespace TISS_SportRecoveryGuide.Controllers
 
         #region 使用者選填基本資料
         [HttpPost]
-        public ActionResult SubmitReferenceInfo(string Gender, int UserAge, string TeamName)
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitReferenceInfo(string Gender, int UserAge, string TeamName, string UsagePurpose, string[] UsedType,
+    DateTime? UsedDate, bool? IsHelpful, string Feedback, string recaptchaResponse)
         {
+            // 基本資料驗證
+            if (string.IsNullOrWhiteSpace(TeamName) || TeamName.Length > 10)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "隊伍名稱格式不正確");
+
+            if (UserAge < 10 || UserAge > 99)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "年齡應介於10到99歲之間");
+
+            if (!string.IsNullOrEmpty(Feedback) && Feedback.Length > 150)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "留言請勿超過150字");
+
+            // 驗證 reCAPTCHA
+            var recaptchaSecret = "6Lezbh4qAAAAADGP0PVQCGXgPDtujjwPtY-EdyAB";
+            using (var client = new WebClient())
+            {
+                var result = client.DownloadString($"https://www.google.com/recaptcha/api/siteverify?secret={recaptchaSecret}&response={recaptchaResponse}");
+                dynamic json = JsonConvert.DeserializeObject(result);
+
+                if (json.success != true)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "reCAPTCHA 驗證失敗");
+            }
+
+            // 建立資料
             var record = new UserReferenceRecord
             {
                 Gender = Gender,
                 UserAge = UserAge,
-                TeamName = TeamName
+                TeamName = TeamName,
+                UsagePurpose = UsagePurpose,
+                UsedType = UsedType != null ? string.Join(",", UsedType) : null,
+                UsedDate = UsedDate,
+                IsHelpful = IsHelpful ?? false,
+                Feedback = Feedback,
+                IPAddress = Request.UserHostAddress,
+                UserAgent = Request.UserAgent
             };
 
             _db.UserReferenceRecord.Add(record);
