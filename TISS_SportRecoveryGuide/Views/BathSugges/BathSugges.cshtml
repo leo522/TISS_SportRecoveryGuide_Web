@@ -4,17 +4,17 @@
     var bathTypes = ViewBag.BathTypes as List<TISS_SportRecoveryGuide.Models.BathType>;
     var allConditions = ViewBag.AllConditions as List<SelectListItem>;
     var selectedConditionId = ViewBag.SelectedConditionID as int?;
+    bool showTable = selectedConditionId.HasValue;
 }
+
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1"></script>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1"></script>
 </head>
 <body>
     <div class="container py-4">
-        <h1 class="text-primary fw-bold text-center mb-4" style="font-size: 2rem;">
-            三溫暖使用建議
-        </h1>
+        <h1 class="text-primary fw-bold text-center mb-4" style="font-size: 2rem;">三溫暖使用建議</h1>
         <h2 class="text-secondary">選擇方案</h2>
 
         <!-- 條件選擇表單 -->
@@ -22,7 +22,7 @@
             <div class="col-md-6">
                 <label class="form-label fw-bold">請選擇條件：</label>
                 <select name="conditionId" class="form-select" onchange="this.form.submit()">
-                    <option value="">-- 全部條件 --</option>
+                    <option value="">請選擇</option>
                     @foreach (var item in allConditions)
                     {
                         <option value="@item.Value" @(item.Value == selectedConditionId?.ToString() ? "selected" : "")>
@@ -33,51 +33,53 @@
             </div>
         </form>
 
-        <!-- 建議方案表格 -->
-        <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th>目的</th>
-                        <th>週期 / 時機</th>
-                        @foreach (var type in bathTypes)
+        @if (showTable)
+        {
+            <!-- 建議方案表格 -->
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>目的</th>
+                            <th>週期 / 時機</th>
+                            @foreach (var type in bathTypes)
+                            {
+                                <th>@type.BathTypeName</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var group in Model.GroupBy(m => m.Purpose))
                         {
-                            <th>@type.BathTypeName</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var group in Model.GroupBy(m => m.Purpose))
-                    {
-                        int rowspan = group.Count();
-                        bool isFirst = true;
+                            int rowspan = group.Count();
+                            bool isFirst = true;
 
-                        foreach (var row in group)
-                        {
-                            <tr>
-                                @if (isFirst)
-                                {
-                                    <td rowspan="@rowspan">@row.Purpose</td>
-                                    isFirst = false;
-                                }
-                                <td>@row.Timing</td>
-                                @foreach (var type in bathTypes)
-                                {
-                                    var match = row.Suggestions.FirstOrDefault(s => s.BathTypeID == type.BathTypeID);
-                                    <td>
-                                        @if (match != null && match.IsRecommended)
-                                        {
-                                            <span class="text-success fw-bold">✔</span>
-                                        }
-                                    </td>
-                                }
-                            </tr>
+                            foreach (var row in group)
+                            {
+                                <tr>
+                                    @if (isFirst)
+                                    {
+                                        <td rowspan="@rowspan">@row.Purpose</td>
+                                        isFirst = false;
+                                    }
+                                    <td>@row.Timing</td>
+                                    @foreach (var type in bathTypes)
+                                    {
+                                        var match = row.Suggestions.FirstOrDefault(s => s.BathTypeID == type.BathTypeID);
+                                        <td>
+                                            @if (match != null && match.IsRecommended)
+                                            {
+                                                <span class="text-success fw-bold">✔</span>
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-
+                    </tbody>
+                </table>
+            </div>
+        }
         <!-- 靜態文字說明 -->
         <div class="mt-4 p-3 bg-white rounded shadow-sm">
             <h5 class="fw-bold text-primary">■ 科學證據顯示</h5>
@@ -91,7 +93,7 @@
 
         <!-- 建議流程區塊 -->
         <div class="mt-5">
-            <h4 class="fw-bold text-secondary mb-3">建議流程</h4>
+            <h2 class="fw-bold text-secondary mb-3">建議流程</h2>
             <div class="table-responsive">
                 <table class="table table-bordered align-middle">
                     <tbody>
@@ -200,17 +202,17 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">預計使用時間</label>
+                    <label class="form-label">使用日期</label>
                     <input type="date" name="UsedDate" class="form-control" />
                 </div>
-                <div class="col-md-4">
+                @*<div class="col-md-4">
                     <label class="form-label">是否有幫助</label>
                     <select name="IsHelpful" class="form-select">
                         <option value="">請選擇</option>
                         <option value="true">有幫助</option>
                         <option value="false">沒有幫助</option>
                     </select>
-                </div>
+                </div>*@
             </div>
 
             <div class="mb-3">
@@ -237,6 +239,7 @@
             <button type="submit" class="btn btn-primary">送出</button>
         }
     </div>
+
     @section Scripts {
         <script>
             grecaptcha.ready(function () {
