@@ -19,6 +19,7 @@ namespace TISS_SportRecoveryGuide.Models
         public string Title { get; set; }
         public string BathUsageDescription { get; set; }
         public Nullable<int> SortOrder { get; set; }
+        public string ToleranceType { get; set; }
     
         public virtual BathType BathType { get; set; }
     }

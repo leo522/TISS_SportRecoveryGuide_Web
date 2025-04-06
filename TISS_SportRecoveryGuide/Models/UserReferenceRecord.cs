@@ -14,7 +14,7 @@ namespace TISS_SportRecoveryGuide.Models
     
     public partial class UserReferenceRecord
     {
-        public int RecordID { get; set; }
+        public int ID { get; set; }
         public string Gender { get; set; }
         public Nullable<int> UserAge { get; set; }
         public string TeamName { get; set; }
@@ -25,6 +25,6 @@ namespace TISS_SportRecoveryGuide.Models
         public string Feedback { get; set; }
         public string IPAddress { get; set; }
         public string UserAgent { get; set; }
-        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public Nullable<System.DateTime> CreatedTime { get; set; }
     }
 }

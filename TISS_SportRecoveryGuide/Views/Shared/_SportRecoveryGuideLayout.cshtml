@@ -10,17 +10,27 @@
     <script src="~/SweetAlert2/sweetalert2@11.js"></script>
 </head>
 <body>
+    <!-- Logo -->
     <div style="position: absolute; top: 10px; left: 10px; z-index: 1000;">
         <img src="~/pic/TISS標題.png" alt="Logo" style="width: 160px; height: auto;" />
     </div>
-    <div class="content-wrapper container">
-        @RenderBody()
+
+    <!-- 主體內容區塊 -->
+    <div class="outer-container">
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
     </div>
 
-    <!-- 背景裝飾圖放在 body 底部，效果自然不壓內容 -->
+
+    <!-- 背景裝飾圖 -->
     <div class="wave-footer">
-        <img src="@Url.Content("~/pic/bg.png")" class="img-fluid" alt="背景波浪圖" />
+        <img src="@Url.Content("~/pic/bathBG.png")" class="img-fluid" alt="背景圖" />
     </div>
+
     @RenderSection("Scripts", required: false)
+    <div style="background-color: black; color: white; text-align: center; padding: 1rem 0; font-size: 0.9rem;" title="Copyright © 2025 國家運動科學中心 All Rights Reserved.">
+        Copyright © 2025 國家運動科學中心 All Rights Reserved.
+    </div>
 </body>
 </html>

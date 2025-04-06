@@ -28,6 +28,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="BathUsageGuideline">
+      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathUsageGuideline">
+        <MappingFragment StoreEntitySet="BathUsageGuideline">
+          <ScalarProperty Name="ToleranceType" ColumnName="ToleranceType" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+          <ScalarProperty Name="BathUsageDescription" ColumnName="BathUsageDescription" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
+          <ScalarProperty Name="GuidelineID" ColumnName="GuidelineID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="LogRecord">
       <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.LogRecord">
         <MappingFragment StoreEntitySet="LogRecord">
@@ -61,21 +73,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="BathUsageGuideline">
-      <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathUsageGuideline">
-        <MappingFragment StoreEntitySet="BathUsageGuideline">
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-          <ScalarProperty Name="BathUsageDescription" ColumnName="BathUsageDescription" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
-          <ScalarProperty Name="GuidelineID" ColumnName="GuidelineID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="UserReferenceRecord">
       <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.UserReferenceRecord">
         <MappingFragment StoreEntitySet="UserReferenceRecord">
-          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
           <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
           <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
           <ScalarProperty Name="Feedback" ColumnName="Feedback" />
@@ -86,7 +87,7 @@
           <ScalarProperty Name="TeamName" ColumnName="TeamName" />
           <ScalarProperty Name="UserAge" ColumnName="UserAge" />
           <ScalarProperty Name="Gender" ColumnName="Gender" />
-          <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

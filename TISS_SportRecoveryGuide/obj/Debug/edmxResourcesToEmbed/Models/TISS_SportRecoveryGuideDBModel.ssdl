@@ -33,6 +33,7 @@
     <Property Name="Title" Type="nvarchar" MaxLength="100" />
     <Property Name="BathUsageDescription" Type="nvarchar" MaxLength="150" />
     <Property Name="SortOrder" Type="int" />
+    <Property Name="ToleranceType" Type="nvarchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="LogRecord">
     <Key>
@@ -66,20 +67,20 @@
   </EntityType>
   <EntityType Name="UserReferenceRecord">
     <Key>
-      <PropertyRef Name="RecordID" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Gender" Type="nvarchar" MaxLength="10" />
     <Property Name="UserAge" Type="int" />
     <Property Name="TeamName" Type="nvarchar" MaxLength="100" />
     <Property Name="UsagePurpose" Type="nvarchar" MaxLength="50" />
-    <Property Name="UsedType" Type="nvarchar" MaxLength="100" />
+    <Property Name="UsedType" Type="nvarchar" MaxLength="200" />
     <Property Name="UsedDate" Type="datetime" />
     <Property Name="IsHelpful" Type="bit" />
     <Property Name="Feedback" Type="nvarchar" MaxLength="300" />
     <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
-    <Property Name="UserAgent" Type="nvarchar" MaxLength="200" />
-    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UserAgent" Type="nvarchar" MaxLength="500" />
+    <Property Name="CreatedTime" Type="datetime" />
   </EntityType>
   <Association Name="FK__BathSugge__BathT__59063A47">
     <End Role="BathType" Type="Self.BathType" Multiplicity="1" />

@@ -16,17 +16,20 @@ namespace TISS_SportRecoveryGuide.Controllers
         private TISS_SportRecoveryGuideDBEntities _db = new TISS_SportRecoveryGuideDBEntities(); //資料庫
 
         #region 三溫暖泡水建議方案
-        public ActionResult BathSugges(int? conditionId, string message = null)
+        public ActionResult BathSugges(int? conditionId, string iceTolerance = null, string message = null)
         {
             var bathTypes = _db.BathType.OrderBy(bt => bt.BathTypeID).ToList();
             var allConditions = _db.BathCondition.ToList();
             var map = _db.BathSuggestionMap.ToList();
             var guidelines = _db.BathUsageGuideline.OrderBy(g => g.BathTypeID).ThenBy(g => g.SortOrder).ToList();
 
-            // 篩選條件
+            var filteredGuidelines = string.IsNullOrEmpty(iceTolerance) ? guidelines
+                : guidelines.Where(g => g.ToleranceType == iceTolerance).ToList();
+
             var selectedConditions = conditionId.HasValue
                 ? allConditions.Where(c => c.ConditionID == conditionId.Value).ToList()
                 : allConditions;
+
 
             var matrix = selectedConditions.Select(condition => new BathSuggestionMatrixViewModel
             {
@@ -45,20 +48,25 @@ namespace TISS_SportRecoveryGuide.Controllers
                 }).ToList()
             }).ToList();
 
-            ViewBag.BathTypes = bathTypes;
-            ViewBag.Guidelines = guidelines;
-            ViewBag.SelectedConditionID = conditionId;
-            ViewBag.AllConditions = allConditions
-                .Select(c => new SelectListItem
-                {
-                    Value = c.ConditionID.ToString(),
-                    Text = $"{c.Purpose} - {c.Timing}"
-                })
-            .ToList();
+            var viewModel = new BathSuggestionViewModel
+            {
+                Matrix = matrix,
+                IceBathGuidelines = filteredGuidelines,
+                SelectedConditionID = conditionId,
+                SelectedTolerance = iceTolerance,
+                AllConditions = allConditions
+            .Select(c => new SelectListItem
+            {
+                Value = c.ConditionID.ToString(),
+                Text = $"{c.Purpose} - {c.Timing}"
+            })
+            .ToList(),
+                BathTypes = bathTypes
+            };
 
             ViewBag.SuccessMessage = (message == "success") ? "感謝您提供資料！" : null;
 
-            return View(matrix);
+            return View(viewModel);
         }
         #endregion
 

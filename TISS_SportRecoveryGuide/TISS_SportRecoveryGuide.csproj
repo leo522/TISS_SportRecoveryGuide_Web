@@ -208,9 +208,11 @@
       <LastGenOutput>TISS_SportRecoveryGuideDBModel.cs</LastGenOutput>
     </Content>
     <Content Include="pic\background.jpg" />
+    <Content Include="pic\bathBG.png" />
     <Content Include="pic\bg.png" />
     <Content Include="pic\favicon.svg" />
     <Content Include="pic\TISS標題.png" />
+    <Content Include="pic\warmcold.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />

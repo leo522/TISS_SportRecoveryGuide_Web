@@ -38,6 +38,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="100" />
           <Property Name="BathUsageDescription" Type="nvarchar" MaxLength="150" />
           <Property Name="SortOrder" Type="int" />
+          <Property Name="ToleranceType" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="LogRecord">
           <Key>
@@ -71,20 +72,20 @@
         </EntityType>
         <EntityType Name="UserReferenceRecord">
           <Key>
-            <PropertyRef Name="RecordID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Gender" Type="nvarchar" MaxLength="10" />
           <Property Name="UserAge" Type="int" />
           <Property Name="TeamName" Type="nvarchar" MaxLength="100" />
           <Property Name="UsagePurpose" Type="nvarchar" MaxLength="50" />
-          <Property Name="UsedType" Type="nvarchar" MaxLength="100" />
+          <Property Name="UsedType" Type="nvarchar" MaxLength="200" />
           <Property Name="UsedDate" Type="datetime" />
           <Property Name="IsHelpful" Type="bit" />
           <Property Name="Feedback" Type="nvarchar" MaxLength="300" />
           <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
-          <Property Name="UserAgent" Type="nvarchar" MaxLength="200" />
-          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UserAgent" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <Association Name="FK__BathSugge__BathT__59063A47">
           <End Role="BathType" Type="Self.BathType" Multiplicity="1" />
@@ -168,6 +169,7 @@
           <EntitySet Name="BathCondition" EntityType="TISS_SportRecoveryGuideDBModel.BathCondition" />
           <EntitySet Name="BathSuggestionMap" EntityType="TISS_SportRecoveryGuideDBModel.BathSuggestionMap" />
           <EntitySet Name="BathType" EntityType="TISS_SportRecoveryGuideDBModel.BathType" />
+          <EntitySet Name="BathUsageGuideline" EntityType="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" />
           <EntitySet Name="LogRecord" EntityType="TISS_SportRecoveryGuideDBModel.LogRecord" />
           <EntitySet Name="UserFeedback" EntityType="TISS_SportRecoveryGuideDBModel.UserFeedback" />
           <EntitySet Name="UserRawData" EntityType="TISS_SportRecoveryGuideDBModel.UserRawData" />
@@ -179,14 +181,13 @@
             <End Role="BathType" EntitySet="BathType" />
             <End Role="BathSuggestionMap" EntitySet="BathSuggestionMap" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeedb__UserI__403A8C7D" Association="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D">
-            <End Role="UserRawData" EntitySet="UserRawData" />
-            <End Role="UserFeedback" EntitySet="UserFeedback" />
-          </AssociationSet>
-          <EntitySet Name="BathUsageGuideline" EntityType="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" />
           <AssociationSet Name="FK__BathUsage__BathT__5CD6CB2B" Association="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B">
             <End Role="BathType" EntitySet="BathType" />
             <End Role="BathUsageGuideline" EntitySet="BathUsageGuideline" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeedb__UserI__403A8C7D" Association="TISS_SportRecoveryGuideDBModel.FK__UserFeedb__UserI__403A8C7D">
+            <End Role="UserRawData" EntitySet="UserRawData" />
+            <End Role="UserFeedback" EntitySet="UserFeedback" />
           </AssociationSet>
           <EntitySet Name="UserReferenceRecord" EntityType="TISS_SportRecoveryGuideDBModel.UserReferenceRecord" />
         </EntityContainer>
@@ -218,6 +219,18 @@
           <Property Name="BathTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BathSuggestionMap" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathSugge__BathT__59063A47" FromRole="BathType" ToRole="BathSuggestionMap" />
           <NavigationProperty Name="BathUsageGuideline" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" FromRole="BathType" ToRole="BathUsageGuideline" />
+        </EntityType>
+        <EntityType Name="BathUsageGuideline">
+          <Key>
+            <PropertyRef Name="GuidelineID" />
+          </Key>
+          <Property Name="GuidelineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BathTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BathUsageDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="ToleranceType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BathType" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" FromRole="BathUsageGuideline" ToRole="BathType" />
         </EntityType>
         <EntityType Name="LogRecord">
           <Key>
@@ -275,29 +288,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeedb__UserI__403A8C7D">
-          <End Type="TISS_SportRecoveryGuideDBModel.UserRawData" Role="UserRawData" Multiplicity="0..1" />
-          <End Type="TISS_SportRecoveryGuideDBModel.UserFeedback" Role="UserFeedback" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserRawData">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserFeedback">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="BathUsageGuideline">
-          <Key>
-            <PropertyRef Name="GuidelineID" />
-          </Key>
-          <Property Name="GuidelineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BathTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="BathUsageDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="SortOrder" Type="Int32" />
-          <NavigationProperty Name="BathType" Relationship="TISS_SportRecoveryGuideDBModel.FK__BathUsage__BathT__5CD6CB2B" FromRole="BathUsageGuideline" ToRole="BathType" />
-        </EntityType>
         <Association Name="FK__BathUsage__BathT__5CD6CB2B">
           <End Type="TISS_SportRecoveryGuideDBModel.BathType" Role="BathType" Multiplicity="1" />
           <End Type="TISS_SportRecoveryGuideDBModel.BathUsageGuideline" Role="BathUsageGuideline" Multiplicity="*" />
@@ -310,22 +300,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__UserFeedb__UserI__403A8C7D">
+          <End Type="TISS_SportRecoveryGuideDBModel.UserRawData" Role="UserRawData" Multiplicity="0..1" />
+          <End Type="TISS_SportRecoveryGuideDBModel.UserFeedback" Role="UserFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRawData">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserFeedback">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="UserReferenceRecord">
           <Key>
-            <PropertyRef Name="RecordID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="UserAge" Type="Int32" />
           <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UsagePurpose" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UsedType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UsedType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UsedDate" Type="DateTime" Precision="3" />
           <Property Name="IsHelpful" Type="Boolean" />
           <Property Name="Feedback" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserAgent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UserAgent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -357,6 +359,18 @@
               <MappingFragment StoreEntitySet="BathType">
                 <ScalarProperty Name="BathTypeName" ColumnName="BathTypeName" />
                 <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BathUsageGuideline">
+            <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathUsageGuideline">
+              <MappingFragment StoreEntitySet="BathUsageGuideline">
+                <ScalarProperty Name="ToleranceType" ColumnName="ToleranceType" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="BathUsageDescription" ColumnName="BathUsageDescription" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
+                <ScalarProperty Name="GuidelineID" ColumnName="GuidelineID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -393,21 +407,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BathUsageGuideline">
-            <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.BathUsageGuideline">
-              <MappingFragment StoreEntitySet="BathUsageGuideline">
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="BathUsageDescription" ColumnName="BathUsageDescription" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="BathTypeID" ColumnName="BathTypeID" />
-                <ScalarProperty Name="GuidelineID" ColumnName="GuidelineID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserReferenceRecord">
             <EntityTypeMapping TypeName="TISS_SportRecoveryGuideDBModel.UserReferenceRecord">
               <MappingFragment StoreEntitySet="UserReferenceRecord">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
                 <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
                 <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
                 <ScalarProperty Name="Feedback" ColumnName="Feedback" />
@@ -418,7 +421,7 @@
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
                 <ScalarProperty Name="UserAge" ColumnName="UserAge" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

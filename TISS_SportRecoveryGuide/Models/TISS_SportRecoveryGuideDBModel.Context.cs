@@ -28,10 +28,10 @@ namespace TISS_SportRecoveryGuide.Models
         public virtual DbSet<BathCondition> BathCondition { get; set; }
         public virtual DbSet<BathSuggestionMap> BathSuggestionMap { get; set; }
         public virtual DbSet<BathType> BathType { get; set; }
+        public virtual DbSet<BathUsageGuideline> BathUsageGuideline { get; set; }
         public virtual DbSet<LogRecord> LogRecord { get; set; }
         public virtual DbSet<UserFeedback> UserFeedback { get; set; }
         public virtual DbSet<UserRawData> UserRawData { get; set; }
-        public virtual DbSet<BathUsageGuideline> BathUsageGuideline { get; set; }
         public virtual DbSet<UserReferenceRecord> UserReferenceRecord { get; set; }
     }
 }
