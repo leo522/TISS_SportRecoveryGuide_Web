@@ -6,12 +6,12 @@
 <html>
 <head>
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1"></script>
+    <link href="~/css/BathSuggesStyle.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container py-4">
         <h1 class="text-primary fw-bold text-center mb-4" style="font-size: 2rem;">三溫暖使用建議</h1>
         <h2 class="text-secondary">選擇方案</h2>
-
         <!-- 條件選擇表單 -->
         <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="row mb-4">
             <div class="col-md-6">
@@ -210,7 +210,8 @@
                     <textarea name="Feedback" class="form-control" rows="3" maxlength="300"></textarea>
                 </div>
                 <input type="hidden" name="recaptchaResponse" id="recaptchaResponse" />
-                <button type="submit" class="btn btn-primary">送出</button>
+                @*<button type="submit" class="btn btn-primary">送出</button>*@
+                <button type="submit" class="btn btn-submit">送出</button>
             }
         </div>
     </div>

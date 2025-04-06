@@ -1,4 +1,4 @@
-﻿.checkmark {
+﻿/*.checkmark {
     font-weight: bold;
     color: green;
 }
@@ -13,4 +13,21 @@
     .table-responsive {
         font-size: 14px;
     }
+}*/
+.btn-submit {
+    background: linear-gradient(to right, #007bff, #00c6ff); /* 藍色系漸層 */
+    border: none;
+    border-radius: 999px; /* 完全圓角 */
+    padding: 10px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s ease;
 }
+
+    .btn-submit:hover {
+        background: linear-gradient(to right, #00aaff, #0099ff);
+        box-shadow: 0 6px 16px rgba(0, 123, 255, 0.5);
+        transform: translateY(-2px);
+    }
