@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using TISS_SportRecoveryGuide.Models;
+using TISS_SportRecoveryGuide.ViewModels;
 
 namespace TISS_SportRecoveryGuide.Controllers
 {
@@ -48,6 +49,9 @@ namespace TISS_SportRecoveryGuide.Controllers
                 }).ToList()
             }).ToList();
 
+            var recommendedBathIDs = matrix.SelectMany(m => m.Suggestions).Where(s => s.IsRecommended)
+                                            .Select(s => s.BathTypeID).Distinct().ToList();
+
             var viewModel = new BathSuggestionViewModel
             {
                 Matrix = matrix,
@@ -55,13 +59,17 @@ namespace TISS_SportRecoveryGuide.Controllers
                 SelectedConditionID = conditionId,
                 SelectedTolerance = iceTolerance,
                 AllConditions = allConditions
-            .Select(c => new SelectListItem
-            {
-                Value = c.ConditionID.ToString(),
-                Text = $"{c.Purpose} - {c.Timing}"
-            })
-            .ToList(),
-                BathTypes = bathTypes
+                    .Select(c => new SelectListItem
+                {
+                    Value = c.ConditionID.ToString(),
+                    Text = $"{c.Purpose} - {c.Timing}"
+                }).ToList(),
+
+                BathTypes = bathTypes,
+
+                ShowIceBath = recommendedBathIDs.Contains(1),      // 假設 1 是冰水浴
+                ShowContrastBath = recommendedBathIDs.Contains(2), // 假設 2 是對比浴
+                ShowHotBath = recommendedBathIDs.Contains(3)       // 假設 3 是熱水浴
             };
 
             ViewBag.SuccessMessage = (message == "success") ? "感謝您提供資料！" : null;

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TISS_SportRecoveryGuide.Models;
 
-namespace TISS_SportRecoveryGuide.Models
+namespace TISS_SportRecoveryGuide.ViewModels
 {
     public class BathSuggestionMatrixViewModel
     {
@@ -29,5 +30,9 @@ namespace TISS_SportRecoveryGuide.Models
         public int? SelectedConditionID { get; set; }
         public List<SelectListItem> AllConditions { get; set; }
         public List<BathType> BathTypes { get; set; }
+        public bool ShowIceBath { get; set; }
+        public bool ShowContrastBath { get; set; }
+        public bool ShowHotBath { get; set; }
+
     }
 }

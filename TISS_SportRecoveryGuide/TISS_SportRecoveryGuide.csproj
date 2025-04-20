@@ -139,7 +139,7 @@
     <Compile Include="Models\BathSuggestionMap.cs">
       <DependentUpon>TISS_SportRecoveryGuideDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BathSuggestionMatrixViewModel.cs" />
+    <Compile Include="ViewModels\BathSuggestionMatrixViewModel.cs" />
     <Compile Include="Models\BathType.cs">
       <DependentUpon>TISS_SportRecoveryGuideDBModel.tt</DependentUpon>
     </Compile>

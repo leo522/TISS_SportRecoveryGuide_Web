@@ -1,4 +1,4 @@
-﻿@model TISS_SportRecoveryGuide.Models.BathSuggestionViewModel
+﻿@model TISS_SportRecoveryGuide.ViewModels.BathSuggestionViewModel
 @{
     Layout = "~/Views/Shared/_SportRecoveryGuideLayout.cshtml";
 }
@@ -10,30 +10,29 @@
 </head>
 <body>
     <div class="container py-4">
-        <h1 class="text-primary fw-bold text-center mb-4" style="font-size: 2rem;">三溫暖使用建議</h1>
-        <h2 class="text-secondary">選擇方案</h2>
-        <!-- 條件選擇表單 -->
-        <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="row mb-4">
-            <div class="col-md-6">
-                <label class="form-label fw-bold">請選擇條件：</label>
-                <select name="conditionId" class="form-select" onchange="this.form.submit()">
-                    <option value="">請選擇</option>
-                    @foreach (var item in Model.AllConditions)
-                    {
-                        <option value="@item.Value" @(item.Value == Model.SelectedConditionID?.ToString() ? "selected" : "")>
-                            @item.Text
-                        </option>
-                    }
-                </select>
-            </div>
-        </form>
-
+        <h1 class="page-title text-center">三溫暖使用建議</h1>
+        <div class="process-block">
+            <h2>選擇方案</h2>
+            <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="row mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">請選擇條件：</label>
+                    <select name="conditionId" class="form-select" onchange="this.form.submit()">
+                        <option value="">請選擇</option>
+                        @foreach (var item in Model.AllConditions)
+                        {
+                            <option value="@item.Value" @(item.Value == Model.SelectedConditionID?.ToString() ? "selected" : "")>
+                                @item.Text
+                            </option>
+                        }
+                    </select>
+                </div>
+            </form>
+        </div>
         @if (Model.SelectedConditionID.HasValue)
         {
-            <!-- 建議方案表格 -->
-            <div class="table-responsive">
+            <div class="table-responsive process-block">
                 <table class="table table-bordered text-center align-middle">
-                    <thead class="table-primary">
+                    <thead>
                         <tr>
                             <th>目的</th>
                             <th>週期 / 時機</th>
@@ -64,7 +63,7 @@
                                         <td>
                                             @if (match != null && match.IsRecommended)
                                             {
-                                                <span class="text-success fw-bold">✔</span>
+                                                <span class="success-check">✓</span>
                                             }
                                         </td>
                                     }
@@ -74,89 +73,107 @@
                     </tbody>
                 </table>
             </div>
+
+            if (Model.SelectedConditionID.HasValue && (Model.ShowIceBath || Model.ShowContrastBath || Model.ShowHotBath))
+            {
+                <div class="process-block">
+                    <h2>建議流程</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <tbody>
+                                @* ✅ 冰水浴 *@
+                                @if (Model.ShowIceBath)
+                                {
+                                    <tr>
+                                        <th class="table-light" style="width: 120px;">冰水浴</th>
+                                        <td>
+                                            <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="mb-3">
+                                                <input type="hidden" name="conditionId" value="@Model.SelectedConditionID" />
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <label class="me-2">選擇耐冷程度：</label>
+                                                    <select name="iceTolerance" class="form-select d-inline-block w-25" onchange="this.form.submit()">
+                                                        <option value="">請選擇</option>
+                                                        <option value="耐冷" @(Model.SelectedTolerance == "耐冷" ? "selected" : "")>耐冷</option>
+                                                        <option value="不耐冷" @(Model.SelectedTolerance == "不耐冷" ? "selected" : "")>不耐冷</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+
+                                            @if (!string.IsNullOrEmpty(Model.SelectedTolerance) && Model.IceBathGuidelines?.Any() == true)
+                                            {
+                                                <ul class="mb-0 list-unstyled">
+                                                    @foreach (var g in Model.IceBathGuidelines)
+                                                    {
+                                                        <li class="mb-2"><strong>@g.Title</strong> - @g.BathUsageDescription</li>
+                                                    }
+                                                </ul>
+                                            }
+                                            else if (string.IsNullOrEmpty(Model.SelectedTolerance))
+                                            {
+                                                <div class="text-muted">請選擇耐冷程度以顯示建議</div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                                @* ✅ 對比浴 *@
+                                @if (Model.ShowContrastBath)
+                                {
+                                    <tr>
+                                        <th class="table-light">對比浴</th>
+                                        <td>
+                                            <div class="mb-2"><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
+                                            <div class="mb-2"><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
+                                            <div class="mb-2"><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
+                                            <ul class="mb-0">
+                                                <li>總浸泡時間約 10 min 為原則</li>
+                                                <li>冷熱交替間隔時間最小化</li>
+                                                <li>強化恢復時可再加 1 set 冰水結束</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+
+                                @* ✅ 熱水浴 *@
+                                @if (Model.ShowHotBath)
+                                {
+                                    <tr>
+                                        <th class="table-light">熱水浴</th>
+                                        <td>熱水 10-15 min</td>
+                                    </tr>
+                                }
+
+                                @* ✅ 水溫範圍（固定顯示） *@
+                                <tr>
+                                    <th class="table-light">水溫範圍</th>
+                                    <td><strong>冰水：</strong>8-15℃， <strong>熱水：</strong>36-42℃</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="references mt-4">
+                        <div style="font-weight: bold; font-size: 1.2rem; color: #000;">主要參考資料</div>
+                        <ol style="padding-left: 1.2rem; margin-bottom: 0; font-size: 1.05rem;">
+                            <li>Bieuzen, F. (2013). Water-immersion therapy...</li>
+                            <li>Cook, C. J., Kilduff, L. P., & Jones, M. R. (2014)...</li>
+                            <li>Machado, A. F., et al. (2016)...</li>
+                            <li>Malta, E. S., et al. (2021)...</li>
+                            <li>Vaile, J., & Halson, S. (2013)...</li>
+                        </ol>
+                    </div>
+                </div>
+            }
+
+
         }
 
-        <!-- 建議流程區塊 -->
-        <div class="mt-5">
-            <h2 class="fw-bold text-secondary mb-3">建議流程</h2>
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
-                    <tbody>
-                        <tr>
-                            <th class="table-light" style="width: 120px;">冰水浴</th>
-                            <td>
-                                <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="mb-3">
-                                    <input type="hidden" name="conditionId" value="@Model.SelectedConditionID" />
-                                    <label class="me-2">選擇耐冷程度：</label>
-                                    <select name="iceTolerance" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
-                                        <option value="">請選擇</option>
-                                        <option value="耐冷" @(Model.SelectedTolerance == "耐冷" ? "selected" : "")>耐冷</option>
-                                        <option value="不耐冷" @(Model.SelectedTolerance == "不耐冷" ? "selected" : "")>不耐冷</option>
-                                    </select>
-                                </form>
-
-                                @if (!string.IsNullOrEmpty(Model.SelectedTolerance) && Model.IceBathGuidelines != null && Model.IceBathGuidelines.Any())
-                                {
-                                    <ul class="mb-0">
-                                        @foreach (var g in Model.IceBathGuidelines)
-                                        {
-                                            <li><strong>@g.Title</strong> - @g.BathUsageDescription</li>
-                                        }
-                                    </ul>
-                                }
-                                else if (string.IsNullOrEmpty(Model.SelectedTolerance))
-                                {
-                                    <div class="text-muted">請選擇耐冷程度以顯示建議</div>
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="table-light">對比浴</th>
-                            <td>
-                                <div><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
-                                <div><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
-                                <div><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
-                                <ul class="mb-0">
-                                    <li>總浸泡時間約 10 min 為原則</li>
-                                    <li>冷熱交替間隔時間最小化</li>
-                                    <li>強化恢復時可再加 1 set 冰水結束</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="table-light">熱水浴</th>
-                            <td><div>熱水 10-15 min</div></td>
-                        </tr>
-                        <tr>
-                            <th class="table-light">水溫範圍</th>
-                            <td><strong>冰水：</strong>8-15℃， <strong>熱水：</strong>36-42℃</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2">
-                                <div class="fw-bold mb-2">主要參考資料</div>
-                                <ol class="small" style="padding-left: 1.2rem; margin-bottom: 0;">
-                                    <li>Bieuzen, F. (2013). Water-immersion therapy...</li>
-                                    <li>Cook, C. J., Kilduff, L. P., & Jones, M. R. (2014)...</li>
-                                    <li>Machado, A. F., et al. (2016)...</li>
-                                    <li>Malta, E. S., et al. (2021)...</li>
-                                    <li>Vaile, J., & Halson, S. (2013)...</li>
-                                </ol>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-        <!-- 使用者基本資料表單 -->
-        <div class="mt-5 p-4 border rounded bg-light">
-            <h5 class="fw-bold mb-3">參考建議方案後，您是否願意留下以下基本資料？</h5>
+        <div class="form-section">
+            <h2 class="h4 fw-bold mb-4">參考建議方案後，您是否願意留下以下基本資料？</h2>
             @using (Html.BeginForm("SubmitReferenceInfo", "BathSugges", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
-                <div class="row mb-3">
+                <div class="row g-3 mb-4">
                     <div class="col-md-4">
                         <label class="form-label">性別</label>
                         <select name="Gender" class="form-select" required>
@@ -175,7 +192,7 @@
                         <input type="text" name="TeamName" class="form-control" maxlength="100" required />
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row g-3 mb-4">
                     <div class="col-md-4">
                         <label class="form-label">使用目的</label>
                         <select name="UsagePurpose" class="form-select" required>
@@ -190,56 +207,57 @@
                         <input type="date" name="UsedDate" class="form-control" />
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">使用的三溫暖類型（可複選）</label><br />
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="UsedType" value="冰水浴" />
-                        <label class="form-check-label">冰水浴</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="UsedType" value="對比浴" />
-                        <label class="form-check-label">對比浴</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="UsedType" value="熱水浴" />
-                        <label class="form-check-label">熱水浴</label>
+                <div class="mb-4">
+                    <label class="form-label d-block">使用的三溫暖類型（可複選）</label>
+                    <div class="d-flex gap-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="UsedType" value="冰水浴" />
+                            <label class="form-check-label">冰水浴</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="UsedType" value="對比浴" />
+                            <label class="form-check-label">對比浴</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="UsedType" value="熱水浴" />
+                            <label class="form-check-label">熱水浴</label>
+                        </div>
                     </div>
                 </div>
-                <div class="mb-3">
+                <div class="mb-4">
                     <label class="form-label">留言 / 使用心得（選填）</label>
                     <textarea name="Feedback" class="form-control" rows="3" maxlength="300"></textarea>
                 </div>
                 <input type="hidden" name="recaptchaResponse" id="recaptchaResponse" />
-                @*<button type="submit" class="btn btn-primary">送出</button>*@
-                <button type="submit" class="btn btn-submit">送出</button>
+                <button type="submit" class="btn-submit">送出</button>
             }
         </div>
     </div>
 
-    @section Scripts {
-        <script>
-            grecaptcha.ready(function () {
-                grecaptcha.execute('6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1', { action: 'submit' }).then(function (token) {
-                    document.getElementById('recaptchaResponse').value = token;
-                });
-            });
-        </script>
-
-        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-        {
+        @section Scripts {
             <script>
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1', { action: 'submit' }).then(function (token) {
+                        document.getElementById('recaptchaResponse').value = token;
+                    });
+                });
+            </script>
+
+            @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+            {
+                <script>
             Swal.fire({
                 icon: 'success',
                 title: '送出成功！',
                 text: '@ViewBag.SuccessMessage',
                 confirmButtonText: '確認',
                 customClass: {
-                    confirmButton: 'btn btn-primary'
+                    confirmButton: 'btn btn-submit'
                 },
                 buttonsStyling: false
             });
-            </script>
+                </script>
+            }
         }
-    }
-</body>
+    </body>
 </html>
