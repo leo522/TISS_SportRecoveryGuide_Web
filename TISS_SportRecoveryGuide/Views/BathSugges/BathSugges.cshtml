@@ -30,6 +30,11 @@
                     </select>
                 </div>
             </form>
+            <div class="col-md-6 mt-3">
+                <a href="@Url.Action("BathSugges", "BathSugges")" class="btn btn-outline-primary rounded-pill px-4 fw-bold">
+                    <i class="fa-solid fa-rotate-left me-2"></i>重新選擇
+                </a>
+            </div>
         </div>
         @if (Model.SelectedConditionID.HasValue)
         {
