@@ -1,37 +1,4 @@
-﻿/*.checkmark {
-    font-weight: bold;
-    color: green;
-}
-
-.table th, .table td {
-    vertical-align: middle;
-    text-align: center;
-    font-size: 16px;
-}
-
-@media (max-width: 767px) {
-    .table-responsive {
-        font-size: 14px;
-    }
-}*/
-/*.btn-submit {
-    background: linear-gradient(to right, #007bff, #00c6ff);*/ /* 藍色系漸層 */
-    /*border: none;
-    border-radius: 999px;*/ /* 完全圓角 */
-    /*padding: 10px 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-    transition: all 0.3s ease;
-}
-
-    .btn-submit:hover {
-        background: linear-gradient(to right, #00aaff, #0099ff);
-        box-shadow: 0 6px 16px rgba(0, 123, 255, 0.5);
-        transform: translateY(-2px);
-    }*/
-/* 全局樣式 */
+﻿/* 全局樣式 */
 :root {
     --primary-color: #2c3e50;
     --secondary-color: #34495e;
@@ -118,13 +85,13 @@ h2 {
     background-color: var(--light-bg) !important;
 }
 
-/* 建議流程區塊 */
+/* 建議流程外層容器樣式 */
 .process-block {
-    background: white;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     padding: 2rem;
     margin-bottom: 2rem;
+    background: transparent;
 }
 
 /* 成功圖標 */
@@ -199,4 +166,96 @@ h2 {
 .text-muted {
     color: #6c757d !important;
     font-size: 0.9rem;
+}
+
+/* =============================== */
+/* ✅ 建議流程卡片（三溫暖）樣式區 */
+/* =============================== */
+
+.icebath-card {
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    border-left: 6px solid #00bcd4;
+    border-radius: var(--border-radius);
+}
+
+.contrast-card {
+    background: linear-gradient(135deg, #fff8e1, #ffffff);
+    border-left: 6px solid #fbc02d;
+    border-radius: var(--border-radius);
+}
+
+.hotbath-card {
+    background: linear-gradient(135deg, #ffebee, #ffffff);
+    border-left: 6px solid #e53935;
+    border-radius: var(--border-radius);
+}
+
+/* 卡片標題區塊 */
+.card-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+}
+
+.icebath-card .card-header {
+    background-color: #00bcd4;
+    color: white;
+}
+
+.contrast-card .card-header {
+    background-color: #fbc02d;
+    color: #212121;
+}
+
+.hotbath-card .card-header {
+    background-color: #e53935;
+    color: white;
+}
+
+/* 卡片內容區塊 */
+.card-body {
+    padding: 1.25rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+/* 自定義水溫 Badge */
+.badge.bg-ice,
+.badge.bg-hot {
+    display: inline-block;
+    font-size: 1rem; /* 增加字體大小 */
+    font-weight: 600;
+    padding: 0.4rem 0.75rem; /* 增加內距，讓標籤更清楚 */
+    border-radius: 1rem; /* 圓角效果 */
+    line-height: 1.2;
+}
+
+.badge.bg-ice {
+    background-color: #00bcd4;
+    color: #ffffff;
+}
+
+.badge.bg-hot {
+    background-color: #e53935;
+    color: #ffffff;
+}
+.bath-icon {
+    font-size: 1.25rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+.logo-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-bottom: 1rem;
+}
+
+.logo-in-card {
+    width: 140px;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }

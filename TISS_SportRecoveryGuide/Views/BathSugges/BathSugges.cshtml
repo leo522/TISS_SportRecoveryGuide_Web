@@ -10,6 +10,9 @@
 </head>
 <body>
     <div class="container py-4">
+        <div class="logo-wrapper mb-3">
+            <img src="~/pic/TISS標題.png" alt="TISS Logo" class="logo-in-card" />
+        </div>
         <h1 class="page-title text-center">三溫暖使用建議</h1>
         <div class="process-block">
             <h2>選擇方案</h2>
@@ -78,80 +81,88 @@
             {
                 <div class="process-block">
                     <h2>建議流程</h2>
-                    <div class="table-responsive">
-                        <table class="table table-bordered align-middle">
-                            <tbody>
-                                @* ✅ 冰水浴 *@
-                                @if (Model.ShowIceBath)
-                                {
-                                    <tr>
-                                        <th class="table-light" style="width: 120px;">冰水浴</th>
-                                        <td>
-                                            <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="mb-3">
-                                                <input type="hidden" name="conditionId" value="@Model.SelectedConditionID" />
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <label class="me-2">選擇耐冷程度：</label>
-                                                    <select name="iceTolerance" class="form-select d-inline-block w-25" onchange="this.form.submit()">
-                                                        <option value="">請選擇</option>
-                                                        <option value="耐冷" @(Model.SelectedTolerance == "耐冷" ? "selected" : "")>耐冷</option>
-                                                        <option value="不耐冷" @(Model.SelectedTolerance == "不耐冷" ? "selected" : "")>不耐冷</option>
-                                                    </select>
-                                                </div>
-                                            </form>
-
-                                            @if (!string.IsNullOrEmpty(Model.SelectedTolerance) && Model.IceBathGuidelines?.Any() == true)
-                                            {
-                                                <ul class="mb-0 list-unstyled">
-                                                    @foreach (var g in Model.IceBathGuidelines)
-                                                    {
-                                                        <li class="mb-2"><strong>@g.Title</strong> - @g.BathUsageDescription</li>
-                                                    }
-                                                </ul>
-                                            }
-                                            else if (string.IsNullOrEmpty(Model.SelectedTolerance))
-                                            {
-                                                <div class="text-muted">請選擇耐冷程度以顯示建議</div>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-
-                                @* ✅ 對比浴 *@
-                                @if (Model.ShowContrastBath)
-                                {
-                                    <tr>
-                                        <th class="table-light">對比浴</th>
-                                        <td>
-                                            <div class="mb-2"><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
-                                            <div class="mb-2"><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
-                                            <div class="mb-2"><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
-                                            <ul class="mb-0">
-                                                <li>總浸泡時間約 10 min 為原則</li>
-                                                <li>冷熱交替間隔時間最小化</li>
-                                                <li>強化恢復時可再加 1 set 冰水結束</li>
+                    <div class="row g-4">
+                        @* 冰水浴卡片 *@
+                        @if (Model.ShowIceBath)
+                        {
+                            <div class="col-md-12">
+                                <div class="card shadow border-0 icebath-card mb-3">
+                                    <div class="card-header">
+                                        @*<i class="fa-solid fa-snowflake text-info"></i> 冰水浴*@
+                                        <i class="fa-solid fa-snowflake bath-icon text-white"></i>冰水浴
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="get" action="@Url.Action("BathSugges", "BathSugges")" class="mb-3">
+                                            <input type="hidden" name="conditionId" value="@Model.SelectedConditionID" />
+                                            <div class="d-flex align-items-center gap-2">
+                                                <label class="me-2">選擇耐冷程度：</label>
+                                                <select name="iceTolerance" class="form-select d-inline-block w-25" onchange="this.form.submit()">
+                                                    <option value="">請選擇</option>
+                                                    <option value="耐冷" @(Model.SelectedTolerance == "耐冷" ? "selected" : "")>耐冷</option>
+                                                    <option value="不耐冷" @(Model.SelectedTolerance == "不耐冷" ? "selected" : "")>不耐冷</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                        @if (!string.IsNullOrEmpty(Model.SelectedTolerance) && Model.IceBathGuidelines?.Any() == true)
+                                        {
+                                            <ul class="mb-0 list-unstyled">
+                                                @foreach (var g in Model.IceBathGuidelines)
+                                                {
+                                                    <li class="mb-2"><strong>@g.Title</strong> - @g.BathUsageDescription</li>
+                                                }
                                             </ul>
-                                        </td>
-                                    </tr>
-                                }
+                                        }
+                                        else if (string.IsNullOrEmpty(Model.SelectedTolerance))
+                                        {
+                                            <div class="text-muted">請選擇耐冷程度以顯示建議</div>
+                                        }
+                                        <div class="mt-2"><span class="badge bg-ice text-white">冰水 8-15℃</span> <span class="badge bg-hot text-white ms-2">熱水 36-42℃</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @* 對比浴卡片 *@
+                        @if (Model.ShowContrastBath)
+                        {
+                            <div class="col-md-12">
+                                <div class="card shadow border-0 contrast-card mb-3">
+                                    <div class="card-header">
+                                        @*<i class="fa-solid fa-retweet text-warning" ></i> 對比浴*@
+                                        <i class="fa-solid fa-retweet" style="color:#212121;"></i>對比浴
 
-                                @* ✅ 熱水浴 *@
-                                @if (Model.ShowHotBath)
-                                {
-                                    <tr>
-                                        <th class="table-light">熱水浴</th>
-                                        <td>熱水 10-15 min</td>
-                                    </tr>
-                                }
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-2"><strong>I.</strong> 冰水 1 min、熱水 1 min x 4-6 sets <span class="text-muted">經典交替方式</span></div>
+                                        <div class="mb-2"><strong>II.</strong> 冰水 1 min、熱水 2 min x 3-4 sets</div>
+                                        <div class="mb-2"><strong>III.</strong> 冰水 2 min、熱水 2 min x 2-3 sets</div>
+                                        <ul class="mb-0">
+                                            <li>總浸泡時間約 10 min 為原則</li>
+                                            <li>冷熱交替間隔時間最小化</li>
+                                            <li>強化恢復時可再加 1 set 冰水結束</li>
+                                        </ul>
+                                        <div class="mt-2"><span class="badge bg-ice">冰水 8-15℃</span> <span class="badge bg-hot text-white ms-2">熱水 36-42℃</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @* 熱水浴卡片 *@
+                        @if (Model.ShowHotBath)
+                        {
+                            <div class="col-md-12">
+                                <div class="card shadow border-0 hotbath-card mb-3">
+                                    <div class="card-header">
+                                        @*<i class="fa-solid fa-hot-tub-person text-danger"></i> 熱水浴*@
+                                        <i class="fa-solid fa-hot-tub-person bath-icon text-white"></i>熱水浴
 
-                                @* ✅ 水溫範圍（固定顯示） *@
-                                <tr>
-                                    <th class="table-light">水溫範圍</th>
-                                    <td><strong>冰水：</strong>8-15℃， <strong>熱水：</strong>36-42℃</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </div>
+                                    <div class="card-body">
+                                        熱水 10-15 min
+                                        <div class="mt-2"><span class="badge bg-hot text-white">熱水 36-42℃</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-
                     <div class="references mt-4">
                         <div style="font-weight: bold; font-size: 1.2rem; color: #000;">主要參考資料</div>
                         <ol style="padding-left: 1.2rem; margin-bottom: 0; font-size: 1.05rem;">

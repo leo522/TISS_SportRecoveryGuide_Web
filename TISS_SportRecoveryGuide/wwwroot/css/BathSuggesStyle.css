@@ -166,4 +166,41 @@ h2 {
 .text-muted {
     color: #6c757d !important;
     font-size: 0.9rem;
+}
+
+/* 分色卡片樣式 */
+.icebath-card {
+    background: #e3f2fd;
+    border-left: 8px solid #4FC3F7;
+}
+.contrast-card {
+    background: #fff3e0;
+    border-left: 8px solid #FFB74D;
+}
+.hotbath-card {
+    background: #ffebee;
+    border-left: 8px solid #E57373;
+}
+.card-header {
+    background: transparent !important;
+    color: #222 !important;
+    font-size: 1.2rem;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.card-header .fa-solid {
+    font-size: 1.5rem;
+}
+.card-body {
+    background: #fafdff;
+    border-radius: 0 0 8px 8px;
+}
+.badge {
+    font-size: 1rem;
+    padding: 0.5em 1em;
+    border-radius: 999px;
+    margin-right: 0.5em;
 } 
