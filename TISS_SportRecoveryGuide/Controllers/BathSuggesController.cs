@@ -94,6 +94,14 @@ namespace TISS_SportRecoveryGuide.Controllers
             if (!string.IsNullOrEmpty(Feedback) && Feedback.Length > 150)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "留言請勿超過150字");
 
+            if (!string.IsNullOrWhiteSpace(Feedback))
+            {
+                var regex = new System.Text.RegularExpressions.Regex(@"^[\u4e00-\u9fa5a-zA-Z0-9\s.,?!:;「」()（）\-－_、~\r\n]*$");
+                if (!regex.IsMatch(Feedback))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "留言內容包含非法字元");
+                }
+            }
             // 驗證 reCAPTCHA
             var recaptchaSecret = "6Lezbh4qAAAAADGP0PVQCGXgPDtujjwPtY-EdyAB";
             using (var client = new WebClient())
@@ -104,6 +112,17 @@ namespace TISS_SportRecoveryGuide.Controllers
                 if (json.success != true)
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "reCAPTCHA 驗證失敗");
             }
+
+            // 取得 IP
+            var ip = Request.UserHostAddress;
+            var tenMinutesAgo = DateTime.Now.AddMinutes(-10);
+            bool isTooFrequent = _db.UserReferenceRecord.Any(r => r.IPAddress == ip && r.CreatedTime > tenMinutesAgo);
+
+            if (isTooFrequent)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "留言次數過多，請稍後再試");
+
+            // 安全處理留言內容
+            var encodedFeedback = string.IsNullOrEmpty(Feedback) ? null : HttpUtility.HtmlEncode(Feedback);
 
             // 建立資料
             var record = new UserReferenceRecord
@@ -117,7 +136,8 @@ namespace TISS_SportRecoveryGuide.Controllers
                 IsHelpful = IsHelpful ?? false,
                 Feedback = Feedback,
                 IPAddress = Request.UserHostAddress,
-                UserAgent = Request.UserAgent
+                UserAgent = Request.UserAgent,
+                CreatedTime = DateTime.Now
             };
 
             _db.UserReferenceRecord.Add(record);

@@ -250,18 +250,18 @@
         </div>
     </div>
 
-        @section Scripts {
-            <script>
-                grecaptcha.ready(function () {
-                    grecaptcha.execute('6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1', { action: 'submit' }).then(function (token) {
-                        document.getElementById('recaptchaResponse').value = token;
-                    });
+    @section Scripts {
+        <script>
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6Lezbh4qAAAAADX1XDuddC9SwZpc1KsA5MMVE2O1', { action: 'submit' }).then(function (token) {
+                    document.getElementById('recaptchaResponse').value = token;
                 });
-            </script>
+            });
+        </script>
 
-            @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-            {
-                <script>
+        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+        {
+            <script>
             Swal.fire({
                 icon: 'success',
                 title: '送出成功！',
@@ -272,8 +272,21 @@
                 },
                 buttonsStyling: false
             });
-                </script>
-            }
+            </script>
         }
-    </body>
+
+        <script>
+            const userForm = document.querySelector('form[action*="SubmitReferenceInfo"]');
+            if (userForm) {
+                userForm.addEventListener("submit", function () {
+                    const btn = userForm.querySelector("button[type='submit']");
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerText = '處理中...';
+                    }
+                });
+            }
+        </script>
+    }
+</body>
 </html>
